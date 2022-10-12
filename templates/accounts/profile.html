@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %}| Profile{% endblock title %}
+
+{% block content %}
+
+<h1 class="page__title">Профиль</h1>
+
+<form class="form" action="{% url 'profile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="cabinet">
+        <div class="cabinet__form">
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="text" placeholder="Ваше username" name="username" value="{{ account.user.username }}">
+                <span class="form__line"></span>
+            </div>
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="text" placeholder="Ваше имя" name="first_name" value="{{ account.user.first_name }}">
+                <span class="form__line"></span>
+            </div>
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="text" placeholder="Ваше surname" name="last_name" value="{{ account.user.last_name }}">
+                <span class="form__line"></span>
+            </div>
+            
+
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="email" placeholder="Ваш e-mail" name="email" value="{{ account.user.email }}">
+                <span class="form__line"></span>
+            </div>
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="phone" placeholder="Ваш phone" name="phone" value="{{ account.phone }}">
+                <span class="form__line"></span>
+            </div>
+
+            <!-- <div class="form__group  form__group--md">
+                <input class="form__control" type="password" name="password" placeholder="Новый пароль">
+                <span class="form__line"></span>
+            </div>
+
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="password" placeholder="Подтвердите пароль" name="password_again">
+                <span class="form__line"></span>
+            </div> -->
+        </div>
+
+        <div class="cabinet__avatar">
+            {% if account.photo %}
+            <img src="{{ account.photo.url }}" width="150" height="150" alt="">
+            {% else %}
+            <img src="https://via.placeholder.com/150" alt="">
+            {% endif %}
+            <label class="cabinet__file">
+                <input type="file" name="avatar">
+                выбрать  аватар
+            </label>
+        </div>
+    </div>
+
+    <div class="form__footer">
+        <button class="btn  btn--blue  btn--rounded  btn--sm" type="submit">Сохранить</button>
+    </div>
+</form>
+
+</div>
+</main>
+</div>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    
+    <!-- Useful meta tags -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="">
+    
+    <title>Blog {% block title %}{% endblock title %}</title>
+</head>
+<body>
+
+    <div class="page" id="page">
+        <!-- Header -->
+        {% include 'partials/_header.html' %}
+        <!-- Sidebar -->
+        {% include 'partials/_sidebar.html' %}
+        <!-- Main -->
+        <main class="main">
+            <div class="container">
+                
+                {% block content %}{% endblock content %}
+                
+                
+                
+            </div>
+        </main>
+    </div>
+
+
+    
+    {% include 'partials/_contact_modal.html' %}
+    {% include 'partials/_share_modal.html' %}
+    
+
+
+    {% if stories %}
+        {% for story in stories %}
+            {% include 'partials/_story_modal.html' %}
+        {% endfor %}
+    {% endif %}
+
+    
+    
+
+    <!-- JS -->
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% load nav_tags %}
+<header class="header">
+    <div class="header__left">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'index' %}">Главная</a>
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link  has-subnav">Статьи</a>
+                    {% posts_list %}
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'about' %}">Обо мне</a>
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'advertisement' %}">Реклама</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <button class="burger" type="button" id="sidebarToggle">
+            <span>Открыть навигацию</span>
+        </button>
+    </div>
+
+    <div class="header__right">
+        <nav class="nav">
+            <ul class="nav__list">
+                {% if user.is_authenticated %}
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'profile' %}">Профиль</a>
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link" href="javascript:document.getElementById('logout').submit();">Выйти</a>
+                </li>
+                {% else %}
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'signin' %}">Войти</a>
+                </li>
+                <li class="nav__item">
+                    <a class="nav__link" href="{% url 'signup' %}">Регестрация</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <form class="search" action="{% url 'search' %}" method="get">
+            <input class="search__input" type="text" name="search" placeholder="Поиск по блогу">
+        </form>
+    </div>
+</header>
+
+<form action="{% url 'logout' %}" method="POST" id="logout">
+    {% csrf_token %}
+    <input type="hidden">
+</form>

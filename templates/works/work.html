@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}| {{ work.title }}{% endblock title %}
+
+{% block content %}
+
+<article class="post">
+    <div class="post__actions">
+        <a href="{% url 'works' %}">вернуться назад</a>
+        <a href="#" data-modal="share-modal">
+            поделиться<img class="post__actions-icon" src="{% static 'images/share.svg' %}" alt="поделиться">
+        </a>
+    </div>
+
+    <div class="post__header  post__header--open">
+        <h1 class="post__title  post__title--open">{{ work.title }}</h1>
+        <ul class="post__data">
+            <li class="post__data-item">
+                <time datetime="2020-06-21 19:20">{{ work.date.date }}</time>
+            </li>
+            {% if work.tag_1 %}
+            <li class="post__data-item">
+                <a href="#">{{ work.tag_1 }}</a>
+            </li>
+            {% endif %}
+            {% if work.tag_2 %}
+            <li class="post__data-item">
+                <a href="#">{{ work.tag_2 }}</a>
+            </li>
+            {% endif %}
+            {% if work.tag_3 %}
+            <li class="post__data-item">
+                <a href="#">{{ work.tag_3 }}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="post__content">
+        <div class="post__text">
+            {% if work.photo_main %}
+            <p>
+                <img src="{{ work.photo_main.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            
+            {% if work.description %}
+                <p>{{ work.description }}</p>
+            {% endif %}
+
+
+            {% if work.photo_1 %}
+            <p>
+                <img src="{{ work.photo_1.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            {% if work.photo_2 %}
+            <p>
+                <img src="{{ work.photo_2.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            {% if work.photo_3 %}
+            <p>
+                <img src="{{ work.photo_3.url }}" alt="">
+            </p>
+            {% endif %}
+        </div><!-- /.post__text -->
+
+
+    </div><!-- /.post__content -->
+</article><!-- /.post -->
+
+{% endblock content %}

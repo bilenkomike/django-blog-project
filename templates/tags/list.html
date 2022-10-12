@@ -1,0 +1,10 @@
+<ul class="subnav">
+    {% for post in posts %}
+        {% if post.title %}
+        <li>
+            <a class="subnav__link" href="{% url 'post' post.id %}">{{ post.title }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+

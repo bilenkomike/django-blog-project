@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block title %}| Search results{% endblock %}
+
+
+{% block content  %}
+
+
+<h1 class="page__title">Результаты поиска “{{ search }}”</h1>
+
+
+{% if results %}
+    {% for result in results %}
+    <article class="post">
+        <div class="post__content">
+            <h2 class="post__title">
+                <a href="{% url 'post' result.id %}">{{ result.title }}</a>
+            </h2>
+            <p class="post__description">{{ result.description|truncatewords:"50" }}</p>
+        </div>
+    
+        <div class="post__footer">
+            <ul class="post__data">
+                <li class="post__data-item">
+                    <time datetime="2020-06-21 19:20">{{ result.date|date:'d.m.Y' }}</time>
+                </li>
+                <li class="post__data-item">
+                    <a href="#">{{ result.tag }}</a>
+                </li>
+            </ul>
+    
+            <a class="post__read" href="{% url 'post' result.id %}">перейти</a>
+        </div>
+    </article><!-- /.post -->
+    {% endfor %}
+{% elif results2 %}
+    {% for result in results2 %}
+
+
+    <article class="post">
+        <div class="post__content">
+            <h2 class="post__title">
+                <a href="{% url 'post' result.id %}">{{ result.title }}</a>
+            </h2>
+            <p class="post__description">{{ result.description|truncatewords:"50" }}</p>
+        </div>
+    
+        <div class="post__footer">
+            <ul class="post__data">
+                <li class="post__data-item">
+                    <time datetime="2020-06-21 19:20">{{ result.date|date:'d.m.Y' }}</time>
+                </li>
+                <li class="post__data-item">
+                    <a href="#">{{ result.tag }}</a>
+                </li>
+            </ul>
+    
+            <a class="post__read" href="{% url 'post' result.id %}">перейти</a>
+        </div>
+    </article><!-- /.post -->
+
+    {% endfor %}
+{% else %}
+<p>No results for search query "{{ search }}"</p>
+{% endif %}
+
+
+{% endblock content %}

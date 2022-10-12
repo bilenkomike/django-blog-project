@@ -1,0 +1,94 @@
+
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+
+
+{% block title %}
+| Works 
+{% endblock title %}
+
+
+
+
+{% block content %}
+
+
+<h1 class="page__title">Мои работы</h1>
+
+
+{% if works %}
+    {% for work in works %}
+    <article class="work">
+        <div class="work__preview">
+            <picture>
+                <source srcset="{{ work.photo_main.url }}" media="(max-width: 575px)">
+                <img src="{{ work.photo_main.url }}" alt="">
+            </picture>
+        </div>
+    
+        <div class="work__content">
+            <h2 class="work__title">
+                <a href="{{ work.link }}" target="_blank">{{ work.title }}</a>
+            </h2>
+    
+            <div class="work__description">
+                <p>{{ work.description|truncatewords:"20" }}</p>
+            </div>
+    
+            <ul class="tags">
+                {% if work.tag_1 %}
+                <li class="tags__item">{{ work.tag_1 }}</li>
+                {% endif %}
+                {% if work.tag_2 %}
+                <li class="tags__item">{{ work.tag_2 }}</li>
+                {% endif %}
+                {% if work.tag_3 %}
+                <li class="tags__item">{{ work.tag_3 }}</li>
+                {% endif %}
+            </ul>
+    
+            <div class="work__footer">
+                <a class="btn  btn--blue  btn--rounded  btn--sm" href="{% url 'work' work.id %}">Перейти на сайт</a>
+            </div>
+        </div>
+    </article>
+
+    {% endfor %}
+{% else %}
+
+{% endif %}
+
+
+
+
+
+
+
+{% if works.number > 1 %}
+<!-- Pagination -->
+<ul class="pagination">
+    {% if works.has_previous %}
+    <li class="pagination__item">
+        <a class="pagination__link" href="?page={{ works.previous_page_number }}">&lt;</a>
+    </li>
+    {% endif %}
+    
+    
+    {% for i in works.paginator.page_range %}
+    <li class="pagination__item">
+        <a class="pagination__link  {% if works.number == i %}active{% endif %}" href="?page={{i}}">{{ i }}</a>
+    </li>
+    {% endfor %}
+    
+    {% if works.has_next %}
+    <li class="pagination__item">
+        <a class="pagination__link" href="?page{{ works.next_page_number }}">&gt;</a>
+    </li>
+    {% endif %}
+</ul>
+
+{% endif %}
+{% endblock content %}

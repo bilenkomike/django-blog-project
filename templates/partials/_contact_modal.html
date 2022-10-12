@@ -1,0 +1,64 @@
+
+{% load setup_tags %}
+{% load static  %}
+
+<div class="modal" id="contact-modal">
+    <div class="modal__content  modal__content--contact">
+        <button class="modal__close" type="button">
+            <img src="{% static 'images/close.svg' %}" alt="Закрыть">
+        </button>
+
+        <form class="form" action="{% url 'contact' %}" method="post">
+            {% csrf_token %}
+
+
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="text" name="fullname" placeholder="Ваше имя"
+                {% if user.is_authenticated %}
+                value="{{ user.first_name }} {{ user.last_name }}"
+                {% endif %}
+                >
+                <span class="form__line"></span>
+            </div>
+
+            {% if user.is_authenticated %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% else %}
+                <input type="hidden" name="user_id" value="0">
+            {% endif %}
+
+            <div class="form__group  form__group--md">
+                <input class="form__control" type="email" name="email" placeholder="Ваш e-mail"
+                {% if  user.is_authenticated %}
+                value="{{ user.email }}"
+                {% endif %}
+
+
+
+                
+                >
+                <span class="form__line"></span>
+            </div>
+
+            <div class="form__group  form__group--md">
+                <textarea class="form__control  form__control--textarea" name="message" placeholder="Текст сообщения"></textarea>
+                <span class="form__line"></span>
+            </div>
+
+            <div class="form__footer">
+                <div class="form__group  form__group--md">
+                    <button class="btn  btn--blue  btn--rounded  btn--sm" type="submit">Отправить</button>
+                </div>
+            </div>
+        </form>
+        
+        <ul class="modal__footer">
+            <li>
+                e-mail: <a href="mailto:{% email %}">{% email %}</a>
+            </li>
+            <li>
+                тел: <a href="tel:{% phone %}">{% phone %}</a>
+            </li>
+        </ul>
+    </div><!-- /.modal__content -->
+</div><!-- /.modal -->

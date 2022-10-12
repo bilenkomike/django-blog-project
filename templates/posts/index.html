@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+    <!-- Stories -->
+    <div class="stories">
+
+        {% if stories %}
+
+            {% for story in stories %}
+                <div class="stories__item" data-modal="story-modal-{{ story.id }}">
+                    <video src="{{ story.video.url }}" frameborder="0" class="stories__preview" allowfullscreen></video>
+
+                    <div class="stories__title">{{ story.title }}</div>
+                    <time class="stories__date" datetime="2020-09-21 19:21">{{ story.date }}</time>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+    </div><!-- /.stories -->
+    
+    
+    
+    {% if user.is_superuser %}
+    <!-- Add post -->
+    <div class="add-post">
+        <form class="add-post__form" action="{% url 'add-post' %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <textarea class="add-post__textarea" name="post-text" placeholder="Напишите что-нибудь" data-autoresize></textarea>
+    
+            <div class="add-post__form-actions">
+                <label class="add-post__file" for="add-post-file">
+                    <input type="file" name="image" id="add-post-file">
+                </label>
+                <button class="add-post__send" type="submit">
+                    Отправить
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    {% endif %}
+    
+    
+    
+    
+    
+   
+    
+    {% if posts %}
+        {% for post in posts %}
+        {% if post.video_link %}
+            <article class="post">
+                <div class="post__header">
+                    <div class="embed">
+                        <iframe src="{{ post.video_link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- <video src="" frameborder="0" controls allowfullscreen></video> -->
+                    
+                    </div>
+                </div>
+                <div class="post__content">
+                    <h2 class="post__title">
+                        <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+                    </h2>
+                </div>
+            
+                <div class="post__footer">
+                    <ul class="post__data">
+                        <li class="post__data-item">
+                            <time datetime="2020-06-21 19:20">{{ post.date }}</time>
+                        </li>
+                        <li class="post__data-item">
+                            <a href="#">{{ post.tag }}</a>
+                        </li>
+                    </ul>
+            
+                    <a class="post__read" href="{% url 'post' post.id %}">оставить комментарий</a>
+                </div>
+            </article><!-- /.post -->
+        {% elif post.video %}
+        <article class="post">
+            <div class="post__header">
+                <div class="embed">
+                    <video src="{{ post.video.url }}" frameborder="0" controls allowfullscreen></video>
+                
+                </div>
+            </div>
+            <div class="post__content">
+                <h2 class="post__title">
+                    <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+                </h2>
+            </div>
+        
+            <div class="post__footer">
+                <ul class="post__data">
+                    <li class="post__data-item">
+                        <time datetime="2020-06-21 19:20">{{ post.date }}</time>
+                    </li>
+                    <li class="post__data-item">
+                        <a href="#">{{ post.tag }}</a>
+                    </li>
+                </ul>
+        
+                <a class="post__read" href="{% url 'post' post.id %}">оставить комментарий</a>
+            </div>
+        </article><!-- /.post -->
+        {% elif not post.title and not post.photo_main %}
+        <div class="post">
+            <div class="post__content">
+                <p class="post__description">{{ post.description|truncatewords:"50" }}</p>
+            </div>
+        
+            <div class="post__footer">
+                <ul class="post__data">
+                    <li class="post__data-item">
+                        <time datetime="2020-06-21 19:20">{{ post.date }}</time>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.post -->
+
+        {% elif not post.title and post.photo_main %}
+        <div class="post">
+            <div class="post__header  post__header--preview">
+                <a href="{% url 'post' post.id %}">
+                    <img class="post__preview" src="{{ post.photo_main.url }}" alt="Как писать код быстро и безболезненно?">
+                </a>
+            </div>
+
+            <div class="post__content">
+                <p class="post__description">{{ post.description|truncatewords:"50" }}</p>
+            </div>
+        
+            <div class="post__footer">
+                <ul class="post__data">
+                    <li class="post__data-item">
+                        <time datetime="2020-06-21 19:20">{{ post.date }}</time>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.post -->
+        
+        {% else %}
+
+        <article class="post">
+            <div class="post__header  post__header--preview">
+                <a href="{% url 'post' post.id %}">
+                    <img class="post__preview" src="{{ post.photo_main.url }}" alt="Как писать код быстро и безболезненно?">
+                </a>
+            </div>
+        
+            <div class="post__content">
+                <h2 class="post__title">
+                    <a href="{% url 'post' post.id %}">{{ post.title }}</a>
+                </h2>
+                <p class="post__description">{{ post.description|truncatewords:"50" }}</p>
+            </div>
+        
+            <div class="post__footer">
+                <ul class="post__data">
+                    <li class="post__data-item">
+                        <time datetime="2020-06-21 19:20">{{ post.date }}</time>
+                    </li>
+                    <li class="post__data-item">
+                        <a href="#">{{ post.tag }}</a>
+                    </li>
+                </ul>
+        
+                <a class="post__read" href="{% url 'post' post.id %}">читать</a>
+            </div>
+        </article><!-- /.post -->
+
+        {% endif %}
+        {% endfor %}
+    {% else %}
+        <p></p>
+    {% endif %}
+    
+    
+    <!-- Pagination -->
+    <ul class="pagination">
+        {% if posts.has_previous %}
+        <li class="pagination__item">
+            <a class="pagination__link" href="?page={{ posts.previous_page_number }}">&lt;</a>
+        </li>
+        {% endif %}
+        
+        
+        {% for i in posts.paginator.page_range %}
+        <li class="pagination__item">
+            <a class="pagination__link  {% if posts.number == i %}active{% endif %}" href="?page={{i}}">{{ i }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if posts.has_next %}
+        <li class="pagination__item">
+            <a class="pagination__link" href="?page{{ posts.next_page_number }}">&gt;</a>
+        </li>
+        {% endif %}
+    </ul>
+{% endblock content  %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<article class="post">
+    <div class="post__actions">
+        <a href="{% url 'index' %}">вернуться назад</a>
+        <a href="#" data-modal="share-modal">
+            поделиться<img class="post__actions-icon" src="{% static 'images/share.svg' %}" alt="поделиться">
+        </a>
+    </div>
+
+    <div class="post__header  post__header--open">
+        <h1 class="post__title  post__title--open">{{ post.title }}</h1>
+        <ul class="post__data">
+            <li class="post__data-item">
+                <time datetime="2020-06-21 19:20">{{ post.date.date }}</time>
+            </li>
+            <li class="post__data-item">
+                <a href="#">{{ post.tag }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="post__content">
+        <div class="post__text">
+            {% if post.photo_main %}
+            <p>
+                <img src="{{ post.photo_main.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            
+            {% if post.description %}
+                <p>{{ post.description }}</p>
+            {% endif %}
+
+
+            {% if post.photo_1 %}
+            <p>
+                <img src="{{ post.photo_1.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            {% if post.photo_2 %}
+            <p>
+                <img src="{{ post.photo_2.url }}" alt="">
+            </p>
+            {% endif %}
+            
+            {% if post.photo_3 %}
+            <p>
+                <img src="{{ post.photo_3.url }}" alt="">
+            </p>
+            {% endif %}
+            
+
+            {% if post.video %}
+            <p>
+                <span class="fr-video">
+                    <video src="{{ post.video.url }}" controls></video>
+                </span>
+            </p>
+            {% endif %}
+
+            {% if post.video_link %}
+            <p>
+                <span class="fr-video">
+                    <iframe src="{{ post.video_link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </span>
+            </p>
+            {% endif %}
+        </div><!-- /.post__text -->
+
+
+        {%  if relateds %}
+        <div class="related">
+            <h3 class="post__subtitle">Интересно почитать</h3>
+
+            <ul class="related__list">
+                {% for related in relateds %}
+                <li class="related__list-item">
+                    <h4 class="related__list-title">
+                        <a href="{% url 'post' related.id %}">{{ related.title }}</a>
+                    </h4>
+                    <time class="related__list-date" datetime="2020-06-21 19:21">{{ related.date|date:'d.m.Y' }}</time>
+                </li>
+               {% endfor %}
+            </ul>
+        </div><!-- /.related -->
+        {% endif %}
+
+
+        
+
+        <h3 class="post__subtitle">Обсуждение</h3>
+
+
+        {% if user.is_authenticated %}
+        <form class="form" action="{% url 'add-comment' %}" method="post">
+            {% csrf_token %}
+            <div class="form__group">
+                <textarea class="form__control  form__control--textarea" name="comment-text" placeholder="Текст комментария" data-autoresize></textarea>
+                <span class="form__line"></span>
+                <input type="hidden" name="user" value="{{ user.id }}">
+                <input type="hidden" name="post" value="{{ post.id }}">
+
+            </div>
+            <button class="btn  btn--blue  btn--rounded  btn--sm" type="submit">Отправить</button>
+        </form>
+        {% else %}
+        <p>To reply for the post you have to be authnticated!</p>
+        {% endif %}
+        
+        
+        {% if comments %}
+        <ul class="comments">   
+            {% for comment in comments %}
+            <li class="comments__item">
+                <div class="comments__header">
+                    <img class="comments__avatar" src="{{ comment.user.photo.url }}" alt="">
+
+                    <div class="comments__author">
+                        <div class="comments__name">{{ comment.user.user.first_name }} {{ comment.user.user.last_name }}</div>
+                        <time class="comments__pubdate" datetime="2020-12-21 19:21">{{ comment.date | timesince }}</time>
+                    </div>
+                </div>
+
+                <div class="comments__text">{{ comment.comment }}</div>
+                
+            </li>
+            {% endfor %}
+            
+        </ul>
+        {% else %}
+        <p style="opacity: .5;">No comments yet</p>
+
+        {% endif %}
+
+        <!-- <button class="comments__reply" type="button">ответить</button> -->
+
+                <!-- <ul class="comments">
+                    <li class="comments__item">
+                        <div class="comments__header">
+                            <img class="comments__avatar" src="https://placehold.it/30" alt="">
+
+                            <div class="comments__author">
+                                <div class="comments__name">Дмитрий Валак</div>
+                                <time class="comments__pubdate" datetime="2020-12-21 19:21">1 неделю назад</time>
+                            </div>
+                        </div>
+
+                        <div class="comments__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, suscipit accusantium aut culpa eius esse architecto nobis sit excepturi expedita, repellendus quae praesentium rerum earum molestias ullam a doloribus at.</div>
+                        <button class="comments__reply" type="button">ответить</button>
+                    </li>
+                </ul> -->
+
+
+    </div><!-- /.post__content -->
+</article><!-- /.post -->
+
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}| Sign up {% endblock title %}
+
+
+{% block content %}
+
+
+
+<h1 class="page__title  page__title--center">Регистрация</h1>
+
+
+
+<form class="form  form--auth" action="{% url 'signup' %}" method="POST">
+    {% csrf_token %}
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="text" placeholder="Ваше имя" name="username">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="text" placeholder="Ваше firstname" name="first_name">
+        <span class="form__line"></span>
+    </div>
+
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="text" placeholder="Ваше lastname" name="last_name">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="email" name="email" placeholder="Ваш e-mail">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="phone" name="phone" placeholder="Ваш phone">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="password" name="password" placeholder="Пароль">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__group  form__group--md">
+        <input class="form__control" type="password" name="password_again" placeholder="Подтвердите пароль">
+        <span class="form__line"></span>
+    </div>
+
+    <div class="form__footer  form__footer--center">
+        <div class="form__group  form__group--md">
+            <button class="btn  btn--blue  btn--rounded  btn--sm" type="submit">Регистрация</button>
+        </div>
+
+        <ul class="form__footer-list">
+            <li>
+                <a href="signin.html">войти</a>
+            </li>
+            <li>
+                <a href="reset.html">восстановить</a>
+            </li>
+        </ul>
+    </div>
+</form>
+
+
+{% endblock content %}
